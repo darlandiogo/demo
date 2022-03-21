@@ -24,8 +24,10 @@ class UserRepository implements RepositoryInterface {
     {
         $queryBiulder = ConnectionFactory::getConnection();
         $results = $queryBiulder->select("select * from users where id = $id ; ");
-        $result  = $results->current();
-        if(is_null($result)) return null;
+        $result  = $results->current() ?? array();
+        if(is_null($result)) {
+            return null;
+        }
         return UserEntity::factory($result);
     }
 
@@ -36,14 +38,18 @@ class UserRepository implements RepositoryInterface {
         $queryBiulder = ConnectionFactory::getConnection();
         $query  = " insert into users (name, email, address) values ('".$userEntity->getName()."', '".$userEntity->getEmail()."', '".$userEntity->getAddress()."'); ";
         $result = $queryBiulder->query($query);
-        if($result) return true;
+        if($result) {
+            return true;
+        }
         return false;
     }
 
     public static function edit(int $id, array $params) : bool
     {
         $userEntity = self::getUserById($id);
-        if(empty($userEntity)) return false;
+        if(empty($userEntity)) {
+            return false;
+        }
 
         $userEntity->setName($params["name"]);
         $userEntity->setEmail($params["email"]);
@@ -52,7 +58,9 @@ class UserRepository implements RepositoryInterface {
         $queryBiulder = ConnectionFactory::getConnection();
         $query  = " update users set name = '".$userEntity->getName()."' , email = '".$userEntity->getEmail()."', address= '".$userEntity->getAddress()."' where id = $id ; ";
         $result = $queryBiulder->query($query);
-        if($result) return true;
+        if($result) {
+            return true;
+        }
         return false;
 
     }
@@ -62,7 +70,9 @@ class UserRepository implements RepositoryInterface {
         $queryBiulder = ConnectionFactory::getConnection();
         $query  = " delete from users where id = $id ; ";
         $result = $queryBiulder->delete($query);
-        if($result) return true;
+        if($result) {
+            return true;
+        }
         return false;
     }
 

@@ -46,8 +46,9 @@ class UserEntity implements EntityInterface {
     public static function factory(array $params): UserEntity {
         $userEntity = new UserEntity();
 
-        if(isset($params["id"]))
+        if(isset($params["id"])) {
             $userEntity->setId($params["id"]);
+        }
 
         $userEntity->setName($params["name"]);
         $userEntity->setEmail($params["email"]);

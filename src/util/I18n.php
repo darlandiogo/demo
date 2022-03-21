@@ -2,6 +2,9 @@
 
 namespace App\Demo\Util;
 
+use App\Demo\Exception\ErrorLoadFileException;
+use App\Demo\Exception\InvalidConfigFileException;
+
 class I18n {
 
     private static $i18n = null;
@@ -16,20 +19,24 @@ class I18n {
         $config = Env::load();
 
         $locale = $config['I18N_CONFIG_LOCALE'] ?? null;
-        if(empty($locale))
-            throw new \Exception('Not configured file I18n pattern');
-
+        if(empty($locale)) {
+            throw new InvalidConfigFileException('Not configured file I18n pattern');
+        }
+            
         $str = self::getFile($locale);
-        if(empty($str))
-            throw new \Exception('File I18n not loaded');
+        if(empty($str)) {
+            throw new ErrorLoadFileException('File I18n not loaded');
+        }
+            
         
         self::$i18n = json_decode( $str, true );
     }
 
     public static function message(string $key): string
     {
-        if(is_null(self::$i18n)) 
+        if(is_null(self::$i18n)) {
             self::load();
+        }
 
         return self::$i18n[$key] ?? null;
     }

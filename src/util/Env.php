@@ -2,6 +2,8 @@
 
 namespace App\Demo\Util;
 
+use App\Demo\Exception\NotFoundException;
+
 class Env {
 
     public static function getPathFileEnv()
@@ -15,8 +17,9 @@ class Env {
         $arr = [];
         $filename = self::getPathFileEnv();
 
-        if(!file_exists($filename ))
-            throw new \Exception('File .env not found');
+        if(!file_exists($filename )) {
+            throw new NotFoundException('File .env not found');
+        }
 
         $file = fopen($filename , "r");
         while(! feof($file)) {

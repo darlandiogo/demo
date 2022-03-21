@@ -5,7 +5,7 @@ namespace App\Demo\Validator;
 class UserValidator implements ValidatorInterface {
 
     public static function validate($params)
-    {   $message  = [];
+    {   $message = array();
         if(!array_key_exists('name', $params )) {
             $message[] = "Campo nome e obrigatorio!";
         }
@@ -18,8 +18,9 @@ class UserValidator implements ValidatorInterface {
             $message[] = "Campo address e obrigatorio!";
         }
 
-        if(count($message) > 0)
+        if(!empty($message)) {
             return $message;
+        }
 
         return false;
     }
