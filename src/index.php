@@ -18,7 +18,6 @@ try {
     $app = AppFactory::create();
     $app->addBodyParsingMiddleware();
     $app->addRoutingMiddleware();
-    //$app->addErrorMiddleware(true, true, true);
 
     $app->get('/users', [App\Demo\Controller\UserController::class ,  'list']);
     $app->get('/user/{id}', [App\Demo\Controller\UserController::class , 'getUserById']);
